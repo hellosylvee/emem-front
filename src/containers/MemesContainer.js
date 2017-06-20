@@ -16,14 +16,16 @@ class MemesContainer extends React.Component {
     }
   }
 
+  let dblink = 'https://emem-back.herokuapp.com/'
+
   componentDidMount(){
-    const URL = 'http://localhost:3000/api/v1/memes'
+    const URL = dblink
     axios.get(URL)
       .then(res => { this.setState({ memes: res.data }) })
   }
 
   handleAddMeme(meme){
-    axios.post('http://localhost:3000/api/v1/memes', {
+    axios.post(dblink, {
       image_url: meme.image_url,
       text_top: meme.text_top,
       text_bottom: meme.text_bottom
@@ -37,7 +39,7 @@ class MemesContainer extends React.Component {
   }
 
   handleEditMeme(meme){
-    axios.patch(`http://localhost:3000/api/v1/memes/${meme.id}`, {
+    axios.patch(dblink + `/${meme.id}`, {
       image_url: meme.image_url,
       text_top: meme.text_top,
       text_bottom: meme.text_bottom
@@ -56,7 +58,7 @@ class MemesContainer extends React.Component {
   }
 
   handleDeleteMeme(id){
-    axios.delete(`http://localhost:3000/api/v1/memes/${id}`)
+    axios.delete(dblink + `/${id}`)
     .then(res => {
       const updatedMemes = this.state.memes.filter(meme => meme.id !== id)
       this.setState({memes: updatedMemes})
